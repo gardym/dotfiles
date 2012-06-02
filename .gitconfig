@@ -1,0 +1,9 @@
+[alias]
+	st = status
+	lg = log --pretty=oneline --decorate
+  br = branch
+[color]
+	ui = auto
+[user]
+	name = Mike Gardiner
+	email = conversationing@gmail.com
