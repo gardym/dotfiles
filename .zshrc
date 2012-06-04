@@ -34,4 +34,7 @@ plugins=(git ruby rvm)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-. /usr/local/etc/profile.d/z.sh
+. `brew --prefix`/etc/profile.d/z.sh
+function precmd () {
+  z --add "$(pwd -P)"
+}
