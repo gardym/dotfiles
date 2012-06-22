@@ -24,3 +24,6 @@ colorscheme inkpot
 set guifont=Menlo\ Regular:h10
 set guioptions-=T
 set clipboard=unnamed
+set foldmethod=indent
+set nofoldenable
+set foldlevel=1
