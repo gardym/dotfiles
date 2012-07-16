@@ -77,3 +77,5 @@ nnoremap <leader>v <C-w>v<C-w>l
 " Load RP by default, and toggle it with ,r
 au VimEnter * RainbowParenthesesToggle
 nnoremap <leader>r :RainbowParenthesesToggle<cr>
+
+nnoremap <leader>q :clo<cr>
