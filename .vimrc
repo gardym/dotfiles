@@ -22,14 +22,20 @@ set listchars=tab:·\ ,trail:·,extends:»,precedes:«
 set backspace=indent,eol,start
 set whichwrap+=<,>,h,l,[,]
 
+" Ignore swaps and move backups
+set undodir=~/.vim/tmp/undo//
+set backup
+set backupdir=~/.vim/tmp/backups
+set writebackup
+set noswapfile
+
 " Search defaults, highlight /g by default etc etc
 set hlsearch
-set gdefault
 set incsearch
 set ignorecase
 set smartcase
 " Clear search with <leader><space>
-nnoremap <leader><space> :noh<cr>
+nnoremap <leader><space> :set hlsearch! hlsearch?<cr>
 
 " Use tab to jump between begin/end blocks
 nnoremap <tab> %
@@ -40,8 +46,8 @@ set scrolloff=5
 set mat=3
 
 " GUI stuff
-colorscheme inkpot
-set guifont=Ubuntu\ Mono\ 9
+colorscheme vividchalk
+set guifont=Menlo\ Regular:h10
 set guioptions-=T
 set clipboard=unnamed
 
@@ -53,6 +59,9 @@ set foldlevel=1
 " Hit backspace on a word to ACK for it
 nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
 
+" Switch to last buffer
+nnoremap <leader><leader> <c-^>
+
 " Show some options when using tab-completion
 set wildmenu
 set wildmode=list:longest
@@ -62,6 +71,7 @@ set ttyfast
 
 " Always show the status bar
 set laststatus=2
+set showcmd
 
 " Don't use crazy VIM Regex, just the normal ones please
 nnoremap / /\v
@@ -76,6 +86,16 @@ nnoremap <leader>v <C-w>v<C-w>l
 
 " Load RP by default, and toggle it with ,r
 au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 nnoremap <leader>r :RainbowParenthesesToggle<cr>
 
 nnoremap <leader>q :clo<cr>
+
+" Remove trailing whitespace from a file
+command! KillWhitespace :normal :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+
+command! NT :NERDTree
+
+let g:ctrlp_custom_ignore = 'vendor\|git'
