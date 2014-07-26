@@ -1,10 +1,10 @@
 [alias]
-  st = status
-  lg = log --pretty=oneline --decorate
+	st = status
+	lg = log --pretty=oneline --decorate
   br = branch
   l  = log --graph --pretty=format:'%C(yellow)%h%Creset%C(red)%d%Creset %C(cyan)%an%Creset %s %C(white) %ar%Creset'
 [color]
-  ui = auto
+	ui = auto
 [user]
-  name = Mike Gardiner
-  email = conversationing@gmail.com
+	name = Mike Gardiner
+	email = mike@gardym.io
