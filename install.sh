@@ -34,4 +34,6 @@ clone_vim_plugins
 install_file ".gitconfig"
 install_file ".vimrc"
 install_dir  ".vim"
-
+install_dir  ".bash"
+install_file ".bashrc"
+install_file ".bash_profile"
