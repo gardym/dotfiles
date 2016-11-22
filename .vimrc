@@ -98,4 +98,6 @@ command! KillWhitespace :normal :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:
 
 command! NT :NERDTree
 
+command! JSON :%!python -m json.tool
+
 let g:ctrlp_custom_ignore = 'vendor\|git'
