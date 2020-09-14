@@ -1,10 +1,25 @@
 let mapleader = ","
 
-call pathogen#infect()
-filetype plugin indent on
+call plug#begin('~/.vim/plugged')
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'prettier/vim-prettier'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'ntk148v/vim-horizon'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'bluz71/vim-nightfly-guicolors'
+call plug#end()
+
 set nocompatible
-syntax enable
 set encoding=utf-8
+
+syntax on
+syntax enable
+filetype plugin indent on
 
 " Line numbers
 "set hidden
@@ -46,9 +61,15 @@ set scrolloff=5
 set mat=3
 
 " GUI stuff
-colorscheme vividchalk
-set guifont=Menlo\ Regular:h10
-set guioptions-=T
+"colorscheme vividchalk
+set background=dark
+"colorscheme dracula
+set termguicolors
+colorscheme nightfly
+"
+"colors horizon
+"set guifont=Menlo\ Regular:h10
+"set guioptions-=T
 set clipboard=unnamed
 
 " Foldmethod - indenting is sensible
@@ -56,18 +77,15 @@ set foldmethod=indent
 set nofoldenable
 set foldlevel=1
 
-" Hit backspace on a word to ACK for it
-nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
-
-" Switch to last buffer
-nnoremap <leader><leader> <c-^>
-
 " Show some options when using tab-completion
 set wildmenu
 set wildmode=list:longest
 
 " Make things super fast? I don't know...
 set ttyfast
+set lazyredraw
+set splitbelow
+set splitright
 
 " Always show the status bar
 set laststatus=2
@@ -79,29 +97,13 @@ vnoremap / /\v
 
 nnoremap j gj
 nnoremap k gk
-
-" Split and swap horizontally or vertically
-nnoremap <leader>w <C-w>s<C-w>j
-nnoremap <leader>v <C-w>v<C-w>l
+nnoremap <leader>n :tabn<cr>
 
 " Load RP by default, and toggle it with ,r
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-nnoremap <leader>r :RainbowParenthesesToggle<cr>
-
-nnoremap <leader>q :clo<cr>
-
-" Remove trailing whitespace from a file
-command! KillWhitespace :normal :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-
-command! NT :NERDTree
-
-command! JSON :%!python -m json.tool
-
-let g:ctrlp_custom_ignore = 'vendor\|git'
-
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    'SeaGreen3'],
@@ -119,3 +121,64 @@ let g:rbpt_colorpairs = [
     \ ['darkred',     'DarkOrchid3'],
     \ ['red',         'firebrick3'],
     \ ]
+
+let g:go_def_mode = 'gopls'
+let g:go_info_mode = 'gopls'
+let g:go_fmt_command = "gofmt"
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_loclist_height = 10
+let g:go_quickfix_height = 10
+let g:go_list_height = 10
+let g:go_jump_to_error = 0
+nnoremap <leader>b :GoBuild<cr>
+
+
+command! NT :NERDTree
+command! NTT :NERDTree %
+command! NTF :NERDTreeFind %
+
+command! JSON :%!python -m json.tool
+
+hi Normal ctermbg=none
+
+if has("statusline")
+  set statusline=[%n]                                 " buffer no
+  set statusline+=\ %<%.99f                           " Filename
+  set statusline+=\ %h%m%r%w                          " Flags
+  set statusline+=%=                                  " right align
+  set statusline+=\ [%{strlen(&fenc)?&fenc:'none'}]   " Encoding
+  set statusline+=\ %y                                " Filetype
+  set statusline+=\ [%{&ff}]                          " Fileformat
+  set statusline+=\ %-3.c\ %P\                        " Column and Percentage
+endif
+
+set laststatus=2  " always show the status bar
+set showmode
+set shortmess=atIOT   " Abbrev. of messages (avoids 'hit enter')
+set showcmd
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
+nnoremap \ :Ag<SPACE>
+"
+" bind K to grep word under cursor
+nnoremap " :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
