@@ -24,13 +24,6 @@ function install_dir() {
   exec_if_file_doesnt_exist $HOME/$1 "cp -Rv ./$1 $HOME"
 }
 
-function clone_vim_plugins() {
-  git submodule init
-  git submodule update --recursive
-}
-
-clone_vim_plugins
-
 install_file ".gitconfig"
 install_file ".vimrc"
 install_dir  ".vim"

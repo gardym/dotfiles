@@ -5,3 +5,8 @@
     # Or if you already have some dotfiles, then force it
     $ bash install.sh -f
 
+### VIM
+
+Install all the VIM plugins
+
+    :PlugInstall
