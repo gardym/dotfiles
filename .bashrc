@@ -3,7 +3,6 @@ source ~/.bash/git.sh
 
 export EDITOR=vim
 
-alias ls="ls --color"
-alias dpkgq="dpkg-query -W -f '\${binary:Package}\n'"
+alias ls="ls -G"
 
 export PATH="$PATH:~/.bin"
