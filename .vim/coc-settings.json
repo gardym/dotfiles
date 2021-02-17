@@ -1,0 +1,5 @@
+{
+  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
+  "eslint.format.enable": true,
+  "eslint.autoFixOnSave": true
+}
