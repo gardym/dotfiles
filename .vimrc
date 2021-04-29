@@ -2,14 +2,16 @@
 let mapleader = ","
 
 call plug#begin('~/.vim/plugged')
-  Plug 'preservim/nerdtree'
   Plug 'luochen1990/rainbow'
+  Plug 'tpope/vim-vinegar'
+  Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-projectionist'
   Plug 'sheerun/vim-polyglot'
   Plug 'neoclide/coc.nvim', { 'branch': 'release'}
-  Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'prettier/vim-prettier', {  'do': 'yarn install', 'for': ['javascript', 'typescript' ] }
   " Colours
   Plug 'wadackel/vim-dogrun'
@@ -99,8 +101,7 @@ nnoremap <leader>t :tabn<cr>
 let g:rainbow_active = 1
 
 " Random aliases
-command! KillWhitespace :normal :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-command! NT :NERDTree
+command! Wad :e ~/src/duffelhq/platform
 command! NTT :NERDTreeFind %
 command! JSON :%!python -m json.tool
 command! XML :%!xmllint -format %
@@ -138,6 +139,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " trigger compltion with c-space
 inoremap <silent><expr> <c-@> coc#refresh()
+nnoremap gf :Dispatch! mix format %<cr>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> D :call <SID>show_documentation()<CR>
@@ -165,3 +167,11 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " Adds an :Ag command for arbitrary searches
 command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
+nnoremap <C-p> :FZF<CR>
+let g:fzf_layout = { 'down': '40%' }
+
+function g:GetRelativePath()
+  let @+ = substitute(expand('%:p'), getcwd() . "/", "", "")
+endfunction
+
+nnoremap <leader>p :call g:GetRelativePath()<CR>
