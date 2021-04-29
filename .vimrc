@@ -62,6 +62,7 @@ nnoremap <leader><space> :set hlsearch! hlsearch?<cr>
 
 " Always work a little from the edge of the screen
 set scrolloff=5
+set sidescrolloff=5
 set mat=3
 
 " GUI stuff
@@ -141,7 +142,7 @@ nmap <silent> gr <Plug>(coc-references)
 inoremap <silent><expr> <c-@> coc#refresh()
 nnoremap gf :Dispatch! mix format %<cr>
 
-" Use K to show documentation in preview window.
+" Use D to show documentation in preview window.
 nnoremap <silent> D :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
@@ -173,5 +174,9 @@ let g:fzf_layout = { 'down': '40%' }
 function g:GetRelativePath()
   let @+ = substitute(expand('%:p'), getcwd() . "/", "", "")
 endfunction
-
 nnoremap <leader>p :call g:GetRelativePath()<CR>
+
+function g:GetRelativePathAndLineNumber()
+  let @+ = substitute(expand('%:p'), getcwd() . "/", "", "") . ":" . line(".")
+endfunction
+nnoremap <leader>n :call g:GetRelativePathAndLineNumber()<CR>
